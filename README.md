@@ -1,4 +1,4 @@
-EasyRTC Server Example
+EasyRTC Server Example with auth/带认证的EasyRTC服务端实例
 ======================
 
 This folder contains all the files you'll need to create a simple server with EasyRTC, Express, and Socket.io. You can copy these files where you wish.
