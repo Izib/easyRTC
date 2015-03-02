@@ -1,0 +1,22 @@
+{
+  "name"        : "easyrtc_easysec_dressed",
+  "version"     : "0.1.1",
+  "author"      : "Priologic Software Inc. <info@priologic.com> (http://priologic.com/)",
+  "description" : "EasyRTC example app. A security system using WebRTC",
+
+  "scripts": {
+    "start"     : "node server.js"
+  },
+
+  "dependencies" : {
+    "easyrtc"   : "1.0.x",
+    "express"   : "3.x.x",
+    "socket.io" : "0.9.x"
+  },
+
+  "license"     : "BSD2",
+  "private"     : true,
+  "engines": {
+    "node"      : ">=0.8"
+  }
+}
