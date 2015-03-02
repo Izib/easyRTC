@@ -1,6 +1,6 @@
 var selfEasyrtcid = "";
 var monitorList = {};
-var curRoom = "";
+var curRoom = "default";  // the first joining room should be default.
 
 var connect = function() {
     console.debug("Initializing local media");
