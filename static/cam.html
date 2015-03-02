@@ -7,18 +7,18 @@
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
     <script type="text/javascript" src="js/jquery/jquery-1.10.2.min.js"></script>
-
+    <script type="text/javascript" src="cam.js"></script>
 
 </head>
 <body onload="connect();">
-    <h1>EasySec: WebRTC Based Security Camera</h1>
+    
     <div id="iam">Not yet connected...</div>
     <div id="selfVideoHolder"><video autoplay="autoplay" id="selfVideo"></video></div>
     <div id="thresholdBox"> Detection threshold: <input id="thresholdField" type="number" value="1000">
-    </div>
-    
-    <script type="text/javascript" src="cam.js"></script>
     <input id="roomid" type="text" value=""  onkeydown="keydown(event)"/>  
-    <input id="joinroom" type="button" value="join" onclick="joinroom()"/>
+    <input id="joinroom" type="button" value="joinroom" onclick="joinroom()"/>
+    
+    </div>     
+    
 </body>
 </html>

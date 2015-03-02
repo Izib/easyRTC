@@ -15,4 +15,4 @@ var webServer = http.createServer(httpApp).listen(80);
 var socketServer = io.listen(webServer, {"log level":1});
 
 // Start EasyRTC server
-var rtc = easyrtc.listen(httpApp, socketServer);
+var rtc = easyrtc.listen(httpApp, socketServer,  {logLevel:"debug", logDateEnable:true});

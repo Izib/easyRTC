@@ -212,13 +212,17 @@ var toggleSize = function(peerEasyrtcid) {
     }
 };
 
-var joinroom = function(){
-    roomid = document.getElementById("roomid").value;
-    easyrtc.leaveRoom(roomid, successCB_l, failureCB_l);        
+var joinroom = function(){    
+    // only join one room
+    easyrtc.leaveRoom(roomid, successCB_l, failureCB_l);  
+    roomid = document.getElementById("roomid").value;    
+    // short delay to ensure the leaveRoom is done
+    setTimeout( function() {easyrtc.joinRoom(roomid, null, successCB, failureCB)},500);    
 }
 
 var successCB = function(roomName) {
     console.debug("Joining room successfully" + roomName);
+    alert("Joining room Or Creating room: " + roomName);
 }
 
 
@@ -226,8 +230,7 @@ var failureCB =  function(errorCode, errorText, roomName) {
     console.debug("Joinging room failure" + roomName, errorCode, errorText);
 }
 
-var successCB_l = function(roomName) {
-    easyrtc.joinRoom(roomid, null, successCB, failureCB);
+var successCB_l = function(roomName) {    
     console.debug("Leaving room successfully" + roomName);
 }
 

@@ -1,5 +1,6 @@
 var selfEasyrtcid = "";
 var monitorList = {};
+var curRoom = "";
 
 var connect = function() {
     console.debug("Initializing local media");
@@ -7,8 +8,7 @@ var connect = function() {
     easyrtc.enableAudio(false);
     easyrtc.enableVideo(true);
     easyrtc.setUsername("cam");
-    easyrtc.setPeerListener(peerListener);
-    easyrtc.joinRoom("abc", null, successCB, failureCB);
+    easyrtc.setPeerListener(peerListener);    
     easyrtc.setRoomOccupantListener(roomOccupantListener);
 
     // Initialize the local media via getUserMedia()
@@ -213,12 +213,36 @@ function initiateMotionDetection() {
     setTimeout( initiateMotionDetection, (sawMotion?1000:250));
 }
 
+var joinroom = function(){
+    roomid = document.getElementById("roomid").value;
+    easyrtc.leaveRoom(curRoom, successCB_l, failureCB_l);    
+    curRoom = roomid;
+    // a delay to ensure leaving the room
+    setTimeout( function() {easyrtc.joinRoom(roomid, null, successCB, failureCB)},500);    
+}
 
 var successCB = function(roomName) {
     console.debug("Joining room successfully" + roomName);
+    alert("Joining room Or Creating room: " + roomName);
 }
 
 
 var failureCB =  function(errorCode, errorText, roomName) {
     console.debug("Joinging room failure" + roomName, errorCode, errorText);
 }
+
+var successCB_l = function(roomName) {    
+    console.debug("Leaving room successfully" + roomName);
+}
+
+
+var failureCB_l =  function(errorCode, errorText, roomName) {
+    console.debug("Leaving room failure" + roomName, errorCode, errorText);
+}
+
+var keydown = function(event){
+    var keyCode = event.keyCode?event.keyCode:event.which?event.which:event.charCode;
+    if (keyCode ==13){
+        joinroom();// 此处处理回车动作
+    }
+ }
