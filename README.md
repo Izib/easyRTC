@@ -1,10 +1,12 @@
 EasyRTC 实例： 添加简单认证和加入房间功能。
 
 直接执行 node server.js 即可。访问地址：http://localhost:3000/ 
+
 你也可以访问我的实例网站观看效果: rtc.yimily.org
+
 账号/密码： admin/pass
 
-
+*****************************************************************************
 EasyRTC Server Example with auth and room joining.
 
 This folder contains all the files you'll need to create a simple server with EasyRTC, Express, and Socket.io. You can copy these files where you wish.
