@@ -4,7 +4,7 @@ $('a').click(function(event) {
 
 var camListObj = {};
 var listEasyrtcid = {};
-var roomid = "";
+var roomid = "default";
 
 var connect = function() {
     easyrtc.enableAudio(false);
