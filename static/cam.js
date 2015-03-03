@@ -3,14 +3,14 @@ var monitorList = {};
 var curRoom = "default";  // the first joining room should be default.
 
 var connect = function() {
-    console.debug("Initializing local media");
-
-    easyrtc.enableAudio(false);
+    console.debug("Initializing local media");        
+    easyrtc.enableAudio(true);
     easyrtc.enableVideo(true);
     easyrtc.setUsername("cam");
     easyrtc.setPeerListener(peerListener);    
     easyrtc.setRoomOccupantListener(roomOccupantListener);
-
+    easyrtc.setVideoDims(document.getElementById("textWidth").value, document.getElementById("textHeight").value);
+    
     // Initialize the local media via getUserMedia()
     easyrtc.initMediaSource(
         function (){
@@ -242,7 +242,13 @@ var failureCB_l =  function(errorCode, errorText, roomName) {
 
 var keydown = function(event){
     var keyCode = event.keyCode?event.keyCode:event.which?event.which:event.charCode;
-    if (keyCode ==13){
-        joinroom();// 此处处理回车动作
+    if (keyCode ==13){ // 13: Enter keydown
+        if(event.currentTarget.id == "roomid") {
+            joinroom();
+        }else if (event.currentTarget.id == "textHeight" || event.currentTarget.id == "textWidth" || event.currentTarget.id == "thresholdField"){
+            connect();
+        }
     }
  }
+ 
+ 

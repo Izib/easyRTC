@@ -49,7 +49,7 @@ var peerListener = function(senderEasyrtcid, msgType, msgData, target) {
             break;
         case "motionState":
             $("#monitor_" + senderEasyrtcid).css("border-color", msgData.motion ? "red" : "#5c5c5c");
-            
+            easyrtc.showError("motion detected", "motion detected at "+ Date());
             setTimeout(function() {
                 refreshSnapshot(senderEasyrtcid);
             }, 200);
@@ -206,8 +206,8 @@ var toggleSize = function(peerEasyrtcid) {
 
         camListObj[peerEasyrtcid].isBig = true;
 
-        $("#monitor_" + peerEasyrtcid).width(440);
-        $("#monitor_" + peerEasyrtcid).height(330);
+        $("#monitor_" + peerEasyrtcid).width(document.getElementById("textWidth").value);
+        $("#monitor_" + peerEasyrtcid).height(document.getElementById("textHeight").value);
         $("#monitor_" + peerEasyrtcid + " div").addClass('large');
     }
 };

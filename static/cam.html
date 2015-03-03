@@ -10,14 +10,17 @@
     <script type="text/javascript" src="cam.js"></script>
 
 </head>
-<body onload="connect();">
+<body>
     
     <div id="iam">Not yet connected...</div>
+    Detection threshold: <input id="thresholdField" type="number" value="1000" onkeydown="keydown(event)"/>
+    Width:<input id="textWidth" type="text" value="440" onkeydown="keydown(event)"/>  
+    Height:<input id="textHeight" type="text" value="330" onkeydown="keydown(event)"/>      
+    <input id="setDims" type="button" value="start" onclick="connect()"/>
     <div id="selfVideoHolder"><video autoplay="autoplay" id="selfVideo"></video></div>
-    <div id="thresholdBox"> Detection threshold: <input id="thresholdField" type="number" value="1000">
+    <div id="thresholdBox"> 
     <input id="roomid" type="text" value=""  onkeydown="keydown(event)"/>  
-    <input id="joinroom" type="button" value="joinroom" onclick="joinroom()"/>
-    
+    <input id="joinroom" type="button" value="joinroom" onclick="joinroom()"/>    
     </div>     
     
 </body>
