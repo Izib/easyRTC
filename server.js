@@ -101,3 +101,13 @@ function isLoggedIn(req, res, next) {
 
     res.redirect('/');
 }
+
+easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callback){
+    console.log("**********************");
+    console.log(roomParameter)
+    if( ( roomParameter != null && roomParameter["password"] == "pass") 
+    || ( roomName == "default")){    
+        console.log(roomParameter)
+        eventListener.onRoomJoin(connectionObj, roomName, roomParameter, callback);
+    }
+});

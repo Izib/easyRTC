@@ -215,10 +215,11 @@ function initiateMotionDetection() {
 
 var joinroom = function(){
     roomid = document.getElementById("roomid").value;
+    pwd = document.getElementById("password").value;
     easyrtc.leaveRoom(curRoom, successCB_l, failureCB_l);    
     curRoom = roomid;
     // a delay to ensure leaving the room
-    setTimeout( function() {easyrtc.joinRoom(roomid, null, successCB, failureCB)},500);    
+    setTimeout( function() {easyrtc.joinRoom(roomid, { "password": pwd}, successCB, failureCB)},500);    
 }
 
 var successCB = function(roomName) {
@@ -243,7 +244,7 @@ var failureCB_l =  function(errorCode, errorText, roomName) {
 var keydown = function(event){
     var keyCode = event.keyCode?event.keyCode:event.which?event.which:event.charCode;
     if (keyCode ==13){ // 13: Enter keydown
-        if(event.currentTarget.id == "roomid") {
+        if(event.currentTarget.id == "roomid" || event.currentTarget.id == "password" ) {
             joinroom();
         }else if (event.currentTarget.id == "textHeight" || event.currentTarget.id == "textWidth" || event.currentTarget.id == "thresholdField"){
             connect();

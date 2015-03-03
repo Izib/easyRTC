@@ -215,9 +215,10 @@ var toggleSize = function(peerEasyrtcid) {
 var joinroom = function(){    
     // only join one room
     easyrtc.leaveRoom(roomid, successCB_l, failureCB_l);  
-    roomid = document.getElementById("roomid").value;    
+    roomid = document.getElementById("roomid").value; 
+    pwd = document.getElementById("password").value;    
     // short delay to ensure the leaveRoom is done
-    setTimeout( function() {easyrtc.joinRoom(roomid, null, successCB, failureCB)},500);    
+    setTimeout( function() {easyrtc.joinRoom(roomid, { "password": pwd}, successCB, failureCB)},500);    
 }
 
 var successCB = function(roomName) {
@@ -241,7 +242,7 @@ var failureCB_l =  function(errorCode, errorText, roomName) {
 
 var keydown = function(event){
     var keyCode = event.keyCode?event.keyCode:event.which?event.which:event.charCode;
-    if (keyCode ==13){
+    if (keyCode ==13 && (event.currentTarget.id == "roomid" || event.currentTarget.id == "password" )){
         joinroom();// 此处处理回车动作
     }
  }
