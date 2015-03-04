@@ -82,17 +82,23 @@ app.post('/login',
 app.post('/setRoom', function(req,res){
     room = req.body.Room;
     pwd = req.body.password;
-    redisPool.get(room, function(err, reply) { 
-        if(reply == null){        
-        redisPool.set( room, pwd, function(err, reply) {
-            res.write( "Setting room is: " + reply + ". Please go back to last page and go head your next operation.");
-            res.end();
-        });
-        }else{
-            res.write( "the room you want to set already exists, please go back to last page and use another room name." );
-            res.end();
-        }
-    } );
+    if ( checkIllegalInput(room) && checkIllegalInput(pwd) ){
+        redisPool.get(room, function(err, reply) { 
+            if(reply == null){        
+            redisPool.set( room, pwd, function(err, reply) {
+                res.write( "Setting room is: " + reply + ". Please go back to last page and go head your next operation.");
+                res.end();
+            });
+            }else{
+                res.write( "the room you want to set already exists, please go back to last page and use another room name." );
+                res.end();
+            }
+        } );
+    }else{
+        res.write( "Illegal input, only allow 1-10 letters combined with number and lowercase.");
+        res.end();
+    }
+    
 });
 
 app.all('*', isLoggedIn);
@@ -123,13 +129,25 @@ function isLoggedIn(req, res, next) {
 easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callback){
     console.log("checking if it's permit to join room");
     console.log(roomParameter)
-    redisPool.get(roomName, function(err, reply) {
-        if( ( roomParameter != null && roomParameter["password"] == reply )
-        || ( roomName == "default")){
-            console.log("grant the user joining room")
-            eventListener.onRoomJoin(connectionObj, roomName, roomParameter, callback);
-        }
-
-    } );
+    if( checkIllegalInput(roomName) && checkIllegalInput(roomParameter["password"]) ){
+        redisPool.get(roomName, function(err, reply) {
+            if( ( roomParameter != null && roomParameter["password"] == reply )
+            || ( roomName == "default")){
+                console.log("grant the user joining room")
+                eventListener.onRoomJoin(connectionObj, roomName, roomParameter, callback);
+            }else{
+                res.write( "Room name or password error");
+                res.end();
+            }
+        } );
+    }else{
+        res.write( "Illegal input, only allow 1-10 letters combined with number and lowercase.");
+        res.end();
+    }
 
 });
+
+var checkIllegalInput(str){
+    // We don't use sql database, but check the input is not a bad habit    
+    return /^[a-z0-9]{1,10}$/.test(str);
+}
