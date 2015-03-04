@@ -2,6 +2,7 @@ $('a').click(function(event) {
     event.preventDefault();
 });
 
+var selfEasyrtcid = "";
 var camListObj = {};
 var listEasyrtcid = {};
 var roomid = "default";
@@ -22,7 +23,8 @@ var loginFailure = function(errorCode, message) {
 
 // Run at connection after successful authorization with EasyRTC server
 var loginSuccess = function(easyrtcid) {
-    $("#iam").html("I am " + easyrtc.cleanId(easyrtcid));
+    selfEasyrtcid = easyrtcid;
+    $("#iam").html("I am " + easyrtc.cleanId(easyrtcid) + " at Room: " + roomid);
 
     easyrtc.setStreamAcceptor(streamAcceptor);
 };
@@ -224,6 +226,7 @@ var joinroom = function(){
 var successCB = function(roomName) {
     console.debug("Joining room successfully" + roomName);
     alert("Joining room Or Creating room: " + roomName);
+    $("#iam").html("I am " + easyrtc.cleanId(selfEasyrtcid) + " at Room: " + roomid);
 }
 
 

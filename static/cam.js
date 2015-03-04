@@ -41,7 +41,7 @@ var loginFailure = function(errorCode, message) {
 var loginSuccess = function(easyrtcid) {
     selfEasyrtcid = easyrtcid;
     console.debug("Successful connection. Easyrctid is " + selfEasyrtcid);
-    document.getElementById("iam").innerHTML = "I am " + easyrtc.cleanId(selfEasyrtcid);
+    document.getElementById("iam").innerHTML = "I am " + easyrtc.cleanId(selfEasyrtcid) + " at Room: " + curRoom;
 };
 
 
@@ -225,6 +225,7 @@ var joinroom = function(){
 var successCB = function(roomName) {
     console.debug("Joining room successfully" + roomName);
     alert("Joining room Or Creating room: " + roomName);
+    document.getElementById("iam").innerHTML = "I am " + easyrtc.cleanId(selfEasyrtcid) + " at Room: " + curRoom;
 }
 
 
