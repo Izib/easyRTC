@@ -129,20 +129,17 @@ function isLoggedIn(req, res, next) {
 easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callback){
     console.log("checking if it's permit to join room");
     console.log(roomParameter)
-    if( checkIllegalInput(roomName) && checkIllegalInput(roomParameter["password"]) ){
+    if( ( roomName == "default") || (checkIllegalInput(roomName) && checkIllegalInput(roomParameter["password"]) )){
         redisPool.get(roomName, function(err, reply) {
-            if( ( roomParameter != null && roomParameter["password"] == reply )
-            || ( roomName == "default")){
+            if( ( roomName == "default") ||( roomParameter != null && roomParameter["password"] == reply )){
                 console.log("grant the user joining room")
                 eventListener.onRoomJoin(connectionObj, roomName, roomParameter, callback);
             }else{
-                res.write( "Room name or password error");
-                res.end();
+                console.log( "Room name or password error");               
             }
         } );
     }else{
-        res.write( "Illegal input, only allow 1-10 letters combined with number and lowercase.");
-        res.end();
+        console.log( "Illegal input, only allow 1-10 letters combined with number and lowercase.");
     }
 
 });
