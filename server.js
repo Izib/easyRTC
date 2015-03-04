@@ -129,7 +129,7 @@ function isLoggedIn(req, res, next) {
 easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callback){
     console.log("checking if it's permit to join room");
     console.log(roomParameter)
-    if( ( roomName == "default") || (checkIllegalInput(roomName) && checkIllegalInput(roomParameter["password"]) )){
+    if(checkIllegalInput(roomName)){
         redisPool.get(roomName, function(err, reply) {
             if( ( roomName == "default") ||( roomParameter != null && roomParameter["password"] == reply )){
                 console.log("grant the user joining room")
