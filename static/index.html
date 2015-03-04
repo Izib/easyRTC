@@ -9,5 +9,16 @@
         <li style="font-size: large;"><a href="cam.html">Camera</a></li>
         <li style="font-size: large;"><a href="monitor.html">Monitor</a></li>
     </ol>
+    <form action="/setRoom" method="post">
+    <div>
+    <div>You can login the default room with any password (Just ignore the content below, and enjoy your journey by clicking the links above) </div> 
+    <div>or set your private room and password here</div>
+    <label>Room:</label>
+    <input type="text" name="Room" value="default"/>
+    <label>Password:</label>
+    <input type="text" name="password" value="pass"/>
+    <input type="submit" value="Create room and set password"/>
+    </div>
+    </form>
 </body>
 </html>

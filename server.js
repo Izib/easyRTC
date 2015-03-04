@@ -5,6 +5,8 @@ var express = require('express')
     , fs = require('fs');
 var passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
+var redis = require('redis');
+var redisPool = redis.createClient();
 
 app.set('ip', '0.0.0.0');
 app.set('port', 3000);
@@ -77,6 +79,22 @@ app.post('/login',
         failureRedirect: '/'
     }));
 
+app.post('/setRoom', function(req,res){
+    room = req.body.Room;
+    pwd = req.body.password;
+    redisPool.get(room, function(err, reply) { 
+        if(reply == null){        
+        redisPool.set( room, pwd, function(err, reply) {
+            res.write( "Setting room is: " + reply + ". Please go back to last page and go head your next operation.");
+            res.end();
+        });
+        }else{
+            res.write( "the room you want to set already exists, please go back to last page and use another room name." );
+            res.end();
+        }
+    } );
+});
+
 app.all('*', isLoggedIn);
 app.all('/demos/*', isLoggedIn);
 app.get('/logout', function (req, res) {
@@ -103,11 +121,15 @@ function isLoggedIn(req, res, next) {
 }
 
 easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callback){
-    console.log("**********************");
+    console.log("checking if it's permit to join room");
     console.log(roomParameter)
-    if( ( roomParameter != null && roomParameter["password"] == "pass") 
-    || ( roomName == "default")){    
-        console.log(roomParameter)
-        eventListener.onRoomJoin(connectionObj, roomName, roomParameter, callback);
-    }
+    redisPool.get(roomName, function(err, reply) {
+        if( ( roomParameter != null && roomParameter["password"] == reply )
+        || ( roomName == "default")){
+            console.log("grant the user joining room")
+            eventListener.onRoomJoin(connectionObj, roomName, roomParameter, callback);
+        }
+
+    } );
+
 });
