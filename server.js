@@ -147,7 +147,7 @@ easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callba
 
 });
 
-var checkIllegalInput(str){
+function checkIllegalInput(str){
     // We don't use sql database, but check the input is not a bad habit    
     return /^[a-z0-9]{1,10}$/.test(str);
 }
