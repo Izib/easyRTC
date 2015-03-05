@@ -1,3 +1,8 @@
+// config file
+var ini = require('node-ini');
+ini.encoding = 'utf-8';
+var cfg = ini.parseSync('./cluster-config.ini');
+
 var express = require('express')
     , http = require('http')
     , path = require('path')
@@ -15,10 +20,7 @@ var logger = log4js.getLogger();
 var logLevel = cfg.log.level || 'ERROR';
 logger.setLevel(logLevel);
 
-// config file
-var ini = require('node-ini');
-ini.encoding = 'utf-8';
-var cfg = ini.parseSync('./cluster-config.ini');
+
 var serverPort = cfg.server.port || 3000;
 var serverHost = cfg.server.host || '0.0.0.0';
 

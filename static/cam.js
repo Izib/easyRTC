@@ -214,6 +214,11 @@ function initiateMotionDetection() {
 }
 
 var joinroom = function(){
+    if( selfEasyrtcid == ""){
+        alert("Please click start to launch camera first");
+        return;
+    }
+    
     roomid = document.getElementById("roomid").value;
     pwd = document.getElementById("password").value;
     easyrtc.leaveRoom(curRoom, successCB_l, failureCB_l);    
