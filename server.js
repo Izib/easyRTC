@@ -5,11 +5,25 @@ var express = require('express')
     , fs = require('fs');
 var passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
+// redis
 var redis = require('redis');
 var redisPool = redis.createClient();
 
-app.set('ip', '0.0.0.0');
-app.set('port', 3000);
+// log module
+var log4js = require('log4js');
+var logger = log4js.getLogger();
+var logLevel = cfg.log.level || 'ERROR';
+logger.setLevel(logLevel);
+
+// config file
+var ini = require('node-ini');
+ini.encoding = 'utf-8';
+var cfg = ini.parseSync('./cluster-config.ini');
+var serverPort = cfg.server.port || 3000;
+var serverHost = cfg.server.host || '0.0.0.0';
+
+app.set('ip', serverHost);
+app.set('port', serverPort);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -26,17 +40,6 @@ app.use(express.static(__dirname + "/static/"));
 // Load required modules
 var io      = require("socket.io");         // web socket external module
 var easyrtc = require("easyrtc");           // EasyRTC external module
-
-var myIceServers = [
- {"url":"stun:stun.linphone.org:3478"},
- {
-   "url":"turn:192.155.86.24:3478",
-   "username":"easyRTC",
-   "credential":"easyRTC@pass"
- },
-];
-
-easyrtc.setOption("appIceServers", myIceServers);
 
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
@@ -109,37 +112,41 @@ app.get('/logout', function (req, res) {
 });
 
 var webServer = http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+    logger.info('Express server listening on port ' + app.get('port'));
 });
 
 // Start Socket.io so it attaches itself to Express server
 var socketServer = io.listen(webServer, {"log level":1});
 
+// Set ICE servers 
+var myIceServers = [
+ {"url":"stun:stun.linphone.org:3478"},
+ {
+   "url":"turn:192.155.86.24:3478",
+   "username":"easyRTC",
+   "credential":"easyRTC@pass"
+ },
+];
+
+easyrtc.setOption("appIceServers", myIceServers);
+
 // Start EasyRTC server
 var rtc = easyrtc.listen(app, socketServer, {logLevel:"debug", logDateEnable:true});
 
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
-    res.redirect('/');
-}
-
 easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callback){
-    console.log("checking if it's permit to join room");
-    console.log(roomParameter)
+    logger.info( "info:","checking if it's permit to join room");
+    logger.info(roomParameter)
     if(checkIllegalInput(roomName)){
         redisPool.get(roomName, function(err, reply) {
             if( ( roomName == "default") ||( roomParameter != null && roomParameter["password"] == reply )){
-                console.log("grant the user joining room")
+                logger.info("info:","grant the user joining room")
                 eventListener.onRoomJoin(connectionObj, roomName, roomParameter, callback);
             }else{
-                console.log( "Room name or password error");               
+                logger.info( "info:","Room name or password error");               
             }
         } );
     }else{
-        console.log( "Illegal input, only allow 1-10 letters combined with number and lowercase.");
+        logger.info( "info:","Illegal input, only allow 1-10 letters combined with number and lowercase.");
     }
 
 });
@@ -147,4 +154,11 @@ easyrtc.on( "roomJoin",  function(connectionObj, roomName, roomParameter, callba
 function checkIllegalInput(str){
     // We don't use sql database, but check the input is not a bad habit    
     return /^[a-z0-9]{1,10}$/.test(str);
+}
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect('/');
 }
