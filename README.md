@@ -4,8 +4,6 @@ EasyRTC 实例： 添加认证和加入房间功能。 支持设置分辨率，�
 
 你也可以访问我的实例网站观看效果: rtc.yimily.org
 
-账号/密码： admin/pass
-
 *****************************************************************************
 EasyRTC Server Example with auth and room joining. Will support MCU using janus-gateway and clustered deploy
 
@@ -23,7 +21,5 @@ Viewing the examples:
 
 In your WebRTC enabled browser, visit your server address including the port. By default port 3000 is used.
 http://localhost:3000/ (you can check the sample website here: rtc.yimily.org)
-
-use admin/pass to login
 
 Feel free to open issues if any problem found, Or e-mail me.
