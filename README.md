@@ -1,4 +1,4 @@
-EasyRTC 实例： 添加简单认证和加入房间功能。 支持设置分辨率，诊断运动物体。即将支持MCU以及分布式部署
+EasyRTC 实例： 添加认证和加入房间功能。 支持设置分辨率，诊断运动物体。即将支持MCU以及分布式部署
 
 直接执行 node server.js 即可。访问地址：http://localhost:3000/ 
 
@@ -26,3 +26,4 @@ http://localhost:3000/ (you can check the sample website here: rtc.yimily.org)
 
 use admin/pass to login
 
+Feel free to open issues if any problem found, Or e-mail me.
