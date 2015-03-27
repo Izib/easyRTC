@@ -1,4 +1,4 @@
-EasyRTC 实例： 添加简单认证和加入房间功能。 支持设置分辨率，诊断运动物体
+EasyRTC 实例： 添加简单认证和加入房间功能。 支持设置分辨率，诊断运动物体，即将支持MCU
 
 直接执行 node server.js 即可。访问地址：http://localhost:3000/ 
 
@@ -7,7 +7,7 @@ EasyRTC 实例： 添加简单认证和加入房间功能。 支持设置分辨�
 账号/密码： admin/pass
 
 *****************************************************************************
-EasyRTC Server Example with auth and room joining. 
+EasyRTC Server Example with auth and room joining. Will support MCU using janus-gateway
 
 This folder contains all the files you'll need to create a simple server with EasyRTC, Express, and Socket.io. You can copy these files where you wish.
 
