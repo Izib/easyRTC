@@ -1,4 +1,4 @@
-EasyRTC 实例： 1. 认证和加入房间功能。 2. 支持设置分辨率，诊断运动物体。 3. 自动选择turn server。 即将支持MCU
+EasyRTC 实例： 1. 认证和加入房间功能。 2. 支持设置分辨率，诊断运动物体(pull dev-redis)。 3. 自动选择turn server。 即将支持MCU
 
 直接执行 node server.js 即可。访问地址：http://localhost:3000/ 
 
